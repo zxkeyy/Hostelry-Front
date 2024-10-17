@@ -1,17 +1,28 @@
 import React, { useState } from "react";
 import Room from "../components/rooms/Room";
-import { rooms } from "../client-&-rooms";
+import { rooms2 } from "../client-&-rooms";
+import useFetchRooms from "../hooks/useFetchRooms";
+import useFetchRoomTypes from "../hooks/useFetchRoomTypes";
 
 const Rooms = () => {
   const [roomsChecked, setRoomsChecked] = useState(false);
   const [searchedRoom, setSearchedRoom] = useState("");
+  const { rooms } = useFetchRooms();
+  const { roomTypes } = useFetchRoomTypes();
+  console.log(roomTypes);
 
-  const roomList = rooms.filter((room) => {
-    return (
-      room.number.toLowerCase().includes(searchedRoom.toLowerCase()) ||
-      room.type.toLowerCase().includes(searchedRoom.toLowerCase())
-    );
-  });
+  const roomList = rooms.filter(
+    (room) =>
+      room.room_number
+        .toString()
+        .toLowerCase()
+        .includes(searchedRoom.toLowerCase()) ||
+      roomTypes
+        .find((roomType) => roomType.id === room.type)
+        .name.toString()
+        .toLowerCase()
+        .includes(searchedRoom.toLowerCase())
+  );
 
   return (
     <div className="rooms pt-10 px-5 flex flex-1 flex-col w-[79vw] max-[920px]:w-[90%]">
@@ -62,7 +73,16 @@ const Rooms = () => {
           </div>
         </div>
         {roomList.map((room) => (
-          <Room key={room.number} room={room} checked={roomsChecked} />
+          <Room
+            key={room.id}
+            room={room}
+            roomType={
+              roomTypes.find((roomType) => roomType.id === room.type)
+                ? roomTypes.find((roomType) => roomType.id === room.type).name
+                : "none"
+            }
+            checked={roomsChecked}
+          />
         ))}
       </div>
     </div>
