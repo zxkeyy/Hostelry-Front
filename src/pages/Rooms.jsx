@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Room from "../components/rooms/Room";
-import { rooms2 } from "../client-&-rooms";
 import useFetchRooms from "../hooks/useFetchRooms";
 import useFetchRoomTypes from "../hooks/useFetchRoomTypes";
 
