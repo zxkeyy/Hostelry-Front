@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import Client from "../components/clients/Client";
-import { clients } from "../client-&-rooms";
+import useFetchClients from "../hooks/useFetchClients";
 
 const Clients = () => {
   const [clientsChecked, setClientsChecked] = useState(false);
   const [searchedClient, setSearchedClient] = useState("");
+  const { clients } = useFetchClients();
 
   const clientList = clients.filter((client) => {
     return (
-      client.firstName.toLowerCase().includes(searchedClient.toLowerCase()) ||
-      client.lastName.toLowerCase().includes(searchedClient.toLowerCase()) ||
-      client.number.includes(searchedClient)
+      client.first_name.toLowerCase().includes(searchedClient.toLowerCase()) ||
+      client.last_name.toLowerCase().includes(searchedClient.toLowerCase()) ||
+      client.id.toString().includes(searchedClient)
     );
   });
 
@@ -61,11 +62,7 @@ const Clients = () => {
           <div className="empty w-1/6"></div>
         </div>
         {clientList.map((client) => (
-          <Client
-            key={client.number}
-            client={client}
-            checked={clientsChecked}
-          />
+          <Client key={client.id} client={client} checked={clientsChecked} />
         ))}
       </div>
     </div>

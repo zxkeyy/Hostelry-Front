@@ -9,7 +9,6 @@ const Rooms = () => {
   const [searchedRoom, setSearchedRoom] = useState("");
   const { rooms } = useFetchRooms();
   const { roomTypes } = useFetchRoomTypes();
-  console.log(roomTypes);
 
   const roomList = rooms.filter(
     (room) =>
